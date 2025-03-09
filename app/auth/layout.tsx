@@ -6,6 +6,7 @@ export default function AuthLayout({
   return (
     <div className="flex flex-col">
       <h1>Auth Layout</h1>
+      {children}
     </div>
   );
 }
