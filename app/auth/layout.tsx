@@ -1,3 +1,5 @@
+import ThemeSwitch from "@/components/global/ThemeSwitch";
+
 export default function AuthLayout({
   children,
 }: Readonly<{
@@ -5,7 +7,7 @@ export default function AuthLayout({
 }>) {
   return (
     <div className="flex flex-col">
-      <h1>Auth Layout</h1>
+      <ThemeSwitch />
       {children}
     </div>
   );

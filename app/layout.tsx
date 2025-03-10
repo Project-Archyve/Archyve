@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import "@/app/globals.css";
 import { createClient } from "@/utils/supabase/server";
 import { UserProvider } from "@/hooks/UserProvider";
+import { ThemeProvider } from "@/hooks/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,9 +17,9 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -26,10 +27,17 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={geistSans.variable} suppressHydrationWarning>
-      <body className="dark">
-        <UserProvider value={user}>
-          {children}
-        </UserProvider>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <UserProvider value={user}>
+            {children}
+          </UserProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
