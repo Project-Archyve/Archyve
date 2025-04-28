@@ -1,3 +1,5 @@
+import { createClient } from "@/lib/supabase/client";
+
 export enum ArtefactType {
   TEXT = "Text",
   CODE_SNIPPET = "Code Snippet",
@@ -13,6 +15,25 @@ export type Artefact = {
   type: ArtefactType;
   created_at: string;
   created_by: string;
+};
+
+const supabase = await createClient();
+
+export async function createArtefact(artefact: Artefact): Promise<void> {
+  const { data, error } = await supabase
+    .from("artefact")
+    .insert({ ...artefact })
+    .select();
+
+    if (error) {
+      throw new Error(
+        `An error has occurred when creating an Artefact: ${error.message}`
+      );
+    }
+    
+    if (!data || data.length === 0) {
+      throw new Error("Not enough data supplied to complete POST.");
+    }
 };
 
 export const artefacts: Artefact[] = [
